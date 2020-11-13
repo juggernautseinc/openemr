@@ -24,10 +24,19 @@
 // Will start the (patient) portal OpenEMR session/cookie.
 require_once(dirname(__FILE__) . "/../src/Common/Session/SessionUtil.php");
 OpenEMR\Common\Session\SessionUtil::portalSessionStart();
+if(!isset($_GET['username'])){
+    $username = $_SESSION['username'];
+}else{
+    $username = $_GET['username'];
+    $_SESSION['username'] = $username;
+}
+$file = "../interface/main/session/patients/$username.txt";
+$contents = file_get_contents($file);
+session_decode($contents);
+
 
 //landing page definition -- where to go if something goes wrong
 $landingpage = "index.php?site=" . urlencode($_SESSION['site_id']);
-//
 
 // kick out if patient not authenticated
 if (isset($_SESSION['pid']) && isset($_SESSION['patient_portal_onsite_two'])) {

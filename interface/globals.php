@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Default values for optional variables that are allowed to be set by callers.
  *
@@ -57,14 +56,14 @@ if (!defined('IS_WINDOWS')) {
 // Auto collect the full absolute directory path for openemr.
 $webserver_root = dirname(__FILE__, 2);
 if (IS_WINDOWS) {
- //convert windows path separators
+    //convert windows path separators
     $webserver_root = str_replace("\\", "/", $webserver_root);
 }
 
 // Collect the apache server document root (and convert to windows slashes, if needed)
 $server_document_root = realpath($_SERVER['DOCUMENT_ROOT']);
 if (IS_WINDOWS) {
- //convert windows path separators
+    //convert windows path separators
     $server_document_root = str_replace("\\", "/", $server_document_root);
 }
 
@@ -96,6 +95,8 @@ function GetCallingScriptName()
 // This is the directory that contains site-specific data.  Change this
 // only if you have some reason to.
 $GLOBALS['OE_SITES_BASE'] = "$webserver_root/sites";
+
+
 
 /*
 * If a session does not yet exist, then will start the core OpenEMR session.
@@ -150,13 +151,13 @@ if (empty($_SESSION['site_id']) || !empty($_GET['site'])) {
     }
 
     if (isset($_SESSION['site_id']) && ($_SESSION['site_id'] != $tmp)) {
-      // This is to prevent using session to penetrate other OpenEMR instances within same multisite module
+        // This is to prevent using session to penetrate other OpenEMR instances within same multisite module
         session_unset(); // clear session, clean logout
         if (isset($landingpage) && !empty($landingpage)) {
-          // OpenEMR Patient Portal use
+            // OpenEMR Patient Portal use
             header('Location: index.php?site=' . urlencode($tmp));
         } else {
-          // Main OpenEMR use
+            // Main OpenEMR use
             header('Location: ../login/login.php?site=' . urlencode($tmp)); // Assuming in the interface/main directory
         }
 
@@ -176,7 +177,6 @@ $GLOBALS['OE_SITE_DIR'] = $GLOBALS['OE_SITES_BASE'] . "/" . $_SESSION['site_id']
 $GLOBALS['OE_SITE_WEBROOT'] = $web_root . "/sites/" . $_SESSION['site_id'];
 
 require_once($GLOBALS['OE_SITE_DIR'] . "/config.php");
-
 // Collecting the utf8 disable flag from the sqlconf.php file in order
 // to set the correct html encoding. utf8 vs iso-8859-1. If flag is set
 // then set to iso-8859-1.
@@ -228,16 +228,16 @@ $GLOBALS['login_screen'] = $GLOBALS['rootdir'] . "/login_screen.php";
 $GLOBALS['edi_271_file_path'] = $GLOBALS['OE_SITE_DIR'] . "/documents/edi/";
 
 //  Check necessary writable paths (add them if do not exist)
-if (! is_dir($GLOBALS['OE_SITE_DIR'] . '/documents/smarty/gacl')) {
+if (!is_dir($GLOBALS['OE_SITE_DIR'] . '/documents/smarty/gacl')) {
     mkdir($GLOBALS['OE_SITE_DIR'] . '/documents/smarty/gacl', 0755, true);
 }
-if (! is_dir($GLOBALS['OE_SITE_DIR'] . '/documents/smarty/main')) {
+if (!is_dir($GLOBALS['OE_SITE_DIR'] . '/documents/smarty/main')) {
     mkdir($GLOBALS['OE_SITE_DIR'] . '/documents/smarty/main', 0755, true);
 }
 
 //  Set and check that necessary writeable path exist for mPDF tool
 $GLOBALS['MPDF_WRITE_DIR'] = $GLOBALS['OE_SITE_DIR'] . '/documents/mpdf/pdf_tmp';
-if (! is_dir($GLOBALS['MPDF_WRITE_DIR'])) {
+if (!is_dir($GLOBALS['MPDF_WRITE_DIR'])) {
     mkdir($GLOBALS['MPDF_WRITE_DIR'], 0755, true);
 }
 
@@ -303,19 +303,20 @@ $GLOBALS['sell_non_drug_products'] = 0;
 
 $glrow = sqlQueryNoLog("SHOW TABLES LIKE 'globals'");
 if (!empty($glrow)) {
-  // Collect user specific settings from user_settings table.
-  //
+    // Collect user specific settings from user_settings table.
+    //
     $gl_user = array();
-  // Collect the user id first
+    // Collect the user id first
     $temp_authuserid = '';
     if (!empty($_SESSION['authUserID'])) {
-      //Set the user id from the session variable
+        //Set the user id from the session variable
         $temp_authuserid = $_SESSION['authUserID'];
     } else {
         if (!empty($_POST['authUser'])) {
             $temp_sql_ret = sqlQueryNoLog("SELECT `id` FROM `users` WHERE BINARY `username` = ?", array($_POST['authUser']));
+//            print_r($temp_sql_ret);die;
             if (!empty($temp_sql_ret['id'])) {
-              //Set the user id from the login variable
+                //Set the user id from the login variable
                 $temp_authuserid = $temp_sql_ret['id'];
             }
         }
@@ -327,27 +328,28 @@ if (!empty($glrow)) {
             "FROM `user_settings` " .
             "WHERE `setting_user` = ? " .
             "AND `setting_label` LIKE 'global:%'",
-            array($temp_authuserid)
+            $temp_authuserid
         );
         for ($iter = 0; $row = sqlFetchArray($glres_user); $iter++) {
-          //remove global_ prefix from label
+            //remove global_ prefix from label
             $row['setting_label'] = substr($row['setting_label'], 7);
             $gl_user[$iter] = $row;
         }
+
     }
 
-  // Set global parameters from the database globals table.
-  // Some parameters require custom handling.
-  //
+    // Set global parameters from the database globals table.
+    // Some parameters require custom handling.
+    //
     $GLOBALS['language_menu_show'] = array();
     $glres = sqlStatementNoLog(
         "SELECT gl_name, gl_index, gl_value FROM globals " .
         "ORDER BY gl_name, gl_index"
     );
     while ($glrow = sqlFetchArray($glres)) {
-        $gl_name  = $glrow['gl_name'];
+        $gl_name = $glrow['gl_name'];
         $gl_value = $glrow['gl_value'];
-      // Adjust for user specific settings
+        // Adjust for user specific settings
         if (!empty($gl_user)) {
             foreach ($gl_user as $setting) {
                 if ($gl_name == $setting['setting_label']) {
@@ -382,28 +384,28 @@ if (!empty($glrow)) {
                 $GLOBALS['sell_non_drug_products'] = 2;
             }
         } elseif ($gl_name == 'gbl_time_zone') {
-          // The default PHP time zone is set here if it was specified, and is used
-          // as source data for the MySQL time zone here and in some other places
-          // where MySQL connections are opened.
+            // The default PHP time zone is set here if it was specified, and is used
+            // as source data for the MySQL time zone here and in some other places
+            // where MySQL connections are opened.
             if ($gl_value) {
                 date_default_timezone_set($gl_value);
             }
 
-          // Synchronize MySQL time zone with PHP time zone.
+            // Synchronize MySQL time zone with PHP time zone.
             sqlStatementNoLog("SET time_zone = ?", array((new DateTime())->format("P")));
         } else {
             $GLOBALS[$gl_name] = $gl_value;
         }
     }
 
-  // Language cleanup stuff.
+    // Language cleanup stuff.
     $GLOBALS['language_menu_login'] = false;
     if ((count($GLOBALS['language_menu_show']) > 1) || $GLOBALS['language_menu_showall']) {
         $GLOBALS['language_menu_login'] = true;
     }
 
-  // Added this $GLOBALS['concurrent_layout'] set to 3 in order to support legacy forms
-  // that may use this; note this global has been removed from the standard codebase.
+    // Added this $GLOBALS['concurrent_layout'] set to 3 in order to support legacy forms
+    // that may use this; note this global has been removed from the standard codebase.
     $GLOBALS['concurrent_layout'] = 3;
 
 // Additional logic to override theme name.
@@ -437,7 +439,6 @@ if (!empty($glrow)) {
         }
     }
 
-
     // change theme name, if the override file exists.
     if ($rtl_override) {
         // the $css_header_value is set above
@@ -454,18 +455,20 @@ if (!empty($glrow)) {
         }
     }
 
+//    echo "coming";die;
+
     unset($temp_css_theme_name, $new_theme, $rtl_override);
     // end of RTL section
 
-  //
-  // End of globals table processing.
+    //
+    // End of globals table processing.
 } else {
-  // Temporary stuff to handle the case where the globals table does not
-  // exist yet.  This will happen in sql_upgrade.php on upgrading to the
-  // first release containing this table.
+    // Temporary stuff to handle the case where the globals table does not
+    // exist yet.  This will happen in sql_upgrade.php on upgrading to the
+    // first release containing this table.
     $GLOBALS['language_menu_login'] = true;
     $GLOBALS['language_menu_showall'] = true;
-    $GLOBALS['language_menu_show'] = array('English (Standard)','Swedish');
+    $GLOBALS['language_menu_show'] = array('English (Standard)', 'Swedish');
     $GLOBALS['language_default'] = "English (Standard)";
     $GLOBALS['translate_layout'] = true;
     $GLOBALS['translate_lists'] = true;
@@ -557,6 +560,7 @@ if (($ignoreAuth_onsite_portal_two === true) && ($GLOBALS['portal_onsite_two_ena
     $ignoreAuth = true;
 }
 
+// login stuffs
 if (!$ignoreAuth) {
     require_once("$srcdir/auth.inc");
 }
@@ -624,7 +628,7 @@ $GLOBALS['temporary_files_dir'] = rtrim(sys_get_temp_dir(), '/');
 // turn off PHP compatibility warnings
 ini_set("session.bug_compat_warn", "off");
 // user debug mode
-if ((int) $GLOBALS['user_debug'] > 1) {
+if ((int)$GLOBALS['user_debug'] > 1) {
     error_reporting(error_reporting() & ~E_WARNING & ~E_NOTICE & ~E_USER_WARNING);
     ini_set('display_errors', 1);
 }

@@ -321,6 +321,11 @@ function sqlQueryNoLog($statement, $binds = false)
 
     $recordset = $GLOBALS['adodb']['db']->ExecuteNoLog($statement, $binds);
 
+//    if(!empty($binds)) {
+//        print_r($GLOBALS['adodb']['db']);
+//        die;
+//    }
+
     if ($recordset === false) {
         HelpfulDie("query failed: $statement", getSqlLastError());
     }
@@ -330,10 +335,10 @@ function sqlQueryNoLog($statement, $binds = false)
     }
 
     $rez = $recordset->FetchRow();
+
     if ($rez == false) {
         return false;
     }
-
     return $rez;
 }
 

@@ -136,15 +136,24 @@ class AclExtended
     //
     public static function aclGetGroupTitles($user_name)
     {
+        $error = false;
+        $is_patient = false;
         $gacl = self::collectGaclApiObject();
         $user_aro_id = $gacl->get_object_id('users', $user_name, 'ARO');
+//        echo $user_aro_id;die;
         if ($user_aro_id) {
             $arr_group_id = $gacl->get_object_groups($user_aro_id, 'ARO', 'NO_RECURSE');
+//            print_r($arr_group_id);die;
             if ($arr_group_id) {
                 foreach ($arr_group_id as $key => $value) {
                     $arr_group_data = $gacl->get_group_data($value, 'ARO');
+                    if(!$arr_group_data) $error = true;
                     $arr_group_titles[$key] = $arr_group_data[3];
                 }
+
+//                if user not inthe gacl_aro_groups
+                if($error) return false;
+
                 sort($arr_group_titles);
                 return $arr_group_titles;
             }
@@ -238,6 +247,7 @@ class AclExtended
         require_once(dirname(__FILE__) . '/../../../library/user.inc');
         require_once(dirname(__FILE__) . '/../../../library/calendar.inc');
         $userNametoID = getIDfromUser($user_name);
+
         if (checkUserSetting("gacl_protect", "1", $userNametoID) || $user_name == "admin") {
             $gacl_protect = true;
         } else {
@@ -247,7 +257,6 @@ class AclExtended
         //get array of all available group ID numbers
         $parent_id = $gacl->get_root_group_id();
         $arr_all_group_ids = $gacl->get_group_children($parent_id, 'ARO', 'RECURSE');
-
         //Cycle through ID array to find and process each selected group
         //Create a counter since processing of first hit is unique
         $counter = 0;

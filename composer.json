@@ -57,7 +57,9 @@
         "twig/twig": "2.13.1",
         "vlucas/phpdotenv": "5.1.0",
         "waryway/php-traits-library": "1.0.4",
-        "yubico/u2flib-server": "1.0.2"
+        "yubico/u2flib-server": "1.0.2",
+        "twilio/sdk": "^6.11",
+        "spipu/html2pdf": "^5.2"
     },
     "config": {
         "platform": {

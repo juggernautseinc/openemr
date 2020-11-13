@@ -1,5 +1,4 @@
 <?php
-
 /**
  * dynamic_finder_ajax.php
  *
@@ -175,6 +174,7 @@ foreach ($aColumns as $colname) {
     }
 }
 
+$authUserId = $_SESSION['authUserID'];
 // Get total number of rows in the table.
 // Include the custom filter clause and bound values, if any
 $row = sqlQuery("SELECT COUNT(id) AS count FROM patient_data WHERE $customWhere", $boundFilter->getBoundValues());
@@ -182,12 +182,21 @@ $iTotal = $row['count'];
 
 // Get total number of rows in the table after filtering.
 //
+
+//$provider_id = [
+//    "providerId" => 1
+//];
+//array_push($srch_bind,$provider_id);
+
 if (empty($where)) {
     $where = $customWhere;
 } else {
     $where = "$customWhere AND $where";
 }
 $row = sqlQuery("SELECT COUNT(id) AS count FROM patient_data WHERE $where", $srch_bind);
+if($_SESSION['whichUser'] == 2 || $_SESSION['whichUser'] == 3){
+    $row = sqlQuery("SELECT COUNT(id) AS count FROM patient_data WHERE $customWhere AND providerId = $authUserId");
+}
 $iFilteredTotal = $row['count'];
 
 // Build the output data array.
@@ -208,6 +217,11 @@ while ($row = sqlFetchArray($res)) {
 }
 
 $query = "SELECT $sellist FROM patient_data WHERE $where $orderby $limit";
+
+if($_SESSION['whichUser'] == 2 || $_SESSION['whichUser'] == 3){
+//    provider
+    $query = "SELECT $sellist FROM patient_data WHERE $where AND providerId = $authUserId $orderby $limit";
+}
 $res = sqlStatement($query, $srch_bind);
 while ($row = sqlFetchArray($res)) {
     // Each <tr> will have an ID identifying the patient.

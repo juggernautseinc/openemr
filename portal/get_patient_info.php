@@ -1,5 +1,4 @@
 <?php
-
 /**
  * portal/get_patient_info.php
  *
@@ -40,7 +39,6 @@ if (!isset($_POST['uname']) || empty($_POST['uname'])) {
     header('Location: ' . $landingpage . '&w&c');
     exit();
 }
-
 if (!isset($_POST['pass']) || empty($_POST['pass'])) {
     OpenEMR\Common\Session\SessionUtil::portalSessionCookieDestroy();
     header('Location: ' . $landingpage . '&w&c');
@@ -121,6 +119,7 @@ if ($password_update === 2 && !empty($_SESSION['pin'])) {
 
     $auth = privQuery($sql, array($_POST['uname']));
 }
+
 if ($auth === false) {
     $logit->portalLog('login attempt', '', ($_POST['uname'] . ':invalid username'), '', '0');
     OpenEMR\Common\Session\SessionUtil::portalSessionCookieDestroy();
@@ -155,6 +154,7 @@ if ($password_update === 2) {
             );
         }
     } else {
+
         $logit->portalLog('login attempt', '', ($_POST['uname'] . ':invalid password'), '', '0');
         OpenEMR\Common\Session\SessionUtil::portalSessionCookieDestroy();
         header('Location: ' . $landingpage . '&w&p');
@@ -269,6 +269,7 @@ if ($userData = sqlQuery($sql, array($auth['pid']))) { // if query gets executed
     header('Location: ' . $landingpage . '&w');
     exit();
 }
+
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");

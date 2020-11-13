@@ -61,6 +61,7 @@ if ($action == 'set_lang') {
     echo "0";
     exit;
 } elseif ($action == 'get_newpid') {
+    echo "coming";
     $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
     $rtn = isNew($_REQUEST['dob'], $_REQUEST['last'], $_REQUEST['first'], $email);
     if ((int) $rtn != 0) {

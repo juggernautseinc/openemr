@@ -368,6 +368,12 @@ $loading = "<div class='spinner-border' role='status'><span class='sr-only'>" . 
                             </tbody>
                         </table>
                     </div>
+                    <?php if($_SESSION['whichUser'] == 2){?>
+                    <span>Patients not listed? <a href="../../midocs/provider/request.php?username=<?php echo $_SESSION['authUser'] ?>" target="_blank">Click HERE </a> to create a Provider/Patient Association.</span>
+
+                    <?php }else if($_SESSION['whichUser'] == 3){?>
+                    <span>Patients not listed? <a href="../../midocs/other/request.php?username=<?php echo $_SESSION['authUser'] ?>" target="_blank">Click HERE </a> to create a Provider/Patient Association.</span>
+                    <?php }?>
                 </div>
             </div>
           </div>

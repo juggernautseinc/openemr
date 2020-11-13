@@ -451,6 +451,7 @@ function getRecInsuranceData($pid, $ins_type)
     //column name->dates->values
     //$return["lname"][0..n]["date"]
     //$return["lname"][0..n]["value"]
+    $retar = array();
     $res = sqlStatement("select *, ic.name as provider_name from insurance_data left join insurance_companies as ic on ic.id = provider where pid=? and type=? order by date", array($pid,$ins_type));
 
     while ($result = sqlFetchArray($res)) {

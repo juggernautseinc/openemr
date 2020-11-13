@@ -202,6 +202,7 @@ class AuthHash
     //  at Administration->Globals->Security->Debug Hash Verification Time).
     public static function passwordVerify(&$password, $hash)
     {
+//        echo $hash;die;
         if ($GLOBALS['gbl_debug_hash_verify_execution_time']) {
             // Reporting collection time to allow fine tuning of hashing algorithm
             $millisecondsStart = round(microtime(true) * 1000);
@@ -228,10 +229,15 @@ class AuthHash
     //  requires no defines from the class
     public static function hashValid($hash)
     {
+//        echo $hash;die;
+        // $2y$10$ip8aA9sWvfMrJLejMQlQn.QXY4t01RRN.E5QBndL1ywfd4av/HFIi
+//        $2y$12$frc1pHRoRLSsOx9ESzlKdO7JA3kDbuhTJaP3QBqhlvE/mTPTNlJri
+
         //  (note need to preg_match for \$2a\$05\$ for backward compatibility since
         //   password_get_info() call can not identify older bcrypt hashes)
         //  (note also need to preg_match for /^\$6\$rounds=/ to support the SHA512HASH hashing option)
         $hash_info = password_get_info($hash);
+//        print_r($hash_info);die;
         if (empty($hash_info['algo']) && empty(preg_match('/^\$2a\$05\$/', $hash)) && empty(preg_match('/^\$6\$rounds=/', $hash))) {
             // Invalid hash
             return false;

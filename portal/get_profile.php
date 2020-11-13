@@ -24,7 +24,6 @@
  */
 
 //namespace OnsitePortal;
-
 require_once("verify_session.php");
 require_once("./../library/report.inc");
 require_once("./../library/options.inc.php");

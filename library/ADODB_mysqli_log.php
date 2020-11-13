@@ -57,6 +57,8 @@ class ADODB_mysqli_log extends ADODB_mysqli
      */
     function ExecuteNoLog($sql, $inputarr = false)
     {
+//        echo $sql;
+//        echo "<br>";
         return parent::Execute($sql, $inputarr);
     }
 

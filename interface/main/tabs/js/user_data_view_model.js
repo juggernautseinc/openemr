@@ -131,5 +131,7 @@ function changeMFA()
 function logout()
 {
     top.restoreSession();
-    document.getElementById("logoutinnerframe").src=webroot_url+"/interface/logout.php";
+    // console.log(webroot_url+"/interface/logout.php?authUser="+authUser+"&which_user="+whichUser);
+    // return false;
+    document.getElementById("logoutinnerframe").src=webroot_url+"/interface/logout.php?authUser="+authUser+"&which_user="+whichUser;
 }

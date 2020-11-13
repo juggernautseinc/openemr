@@ -1,5 +1,4 @@
 <?php
-
 /** @package    Patient Portal
  *
  * From phreeze package
