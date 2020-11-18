@@ -450,7 +450,7 @@ foreach ($msgs as $i) {
                         <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#procard" data-toggle="collapse" data-parent="#cardgroup"><i class="fa fa-edit"></i> <?php echo xlt("Patient Reported Outcomes"); ?></a></li>
                     <?php } ?>
                     <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#openSignModal" data-toggle="modal" data-type="patient-signature"><i class="fas fa-file-signature"></i> <?php echo xlt('Signature on File'); ?></a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php?username=<?php echo $_GET['username']?>"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
                 </ul>
             </nav>
           </aside>
