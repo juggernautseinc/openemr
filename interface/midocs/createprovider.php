@@ -171,21 +171,21 @@ $url = substr($url, 0, strpos($url, "interface"));
             </div>
             <div class="form-group row">
                 <label for="npi" class="col-sm-2">Individual NPI</label>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" name="npi">
                     <label class="badge text-danger mt-1 error-field" id="npi"></label>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="email" class="col-sm-2">E-mail</label>
-                <div class="col-sm-4">
+                <div class="col-sm-8">
                     <input type="text" class="form-control" name="email">
                     <label class="badge text-danger mt-1 error-field" id="email"></label>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="con_email" class="col-sm-2">Confirm E-mail</label>
-                <div class="col-sm-4">
+                <div class="col-sm-8">
                     <input type="email" class="form-control" name="con_email">
                     <label class="badge text-danger mt-1 error-field" id="con_email"></label>
                 </div>
