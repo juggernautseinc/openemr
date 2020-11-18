@@ -21,12 +21,6 @@ class EmailCustomerReceipt extends PHPMailer
 
     public function __construct()
     {
-        $this->Host = "mail.imarasoft.net";
-        $this->Username = "ayyash@imarasoft.net";
-        $this->SMTPAuth = "Ayyash_123!";
-        $this->SMTPSecure = "ssl";
-        $this->Port = 465;
-
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
         $url = $protocol.$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         $this->Url = substr($url, 0, strpos($url, "interface"));
@@ -664,24 +658,23 @@ $message
 
     public function sendMessage($body, $email, $subject,$file = "")
     {
-//        $email = "mahran996@gmail.com";
         $mail = new PHPMailer(TRUE);
         try {
             $mail->SMTPDebug = false;
             $mail->isSMTP();
             $mail->IsHTML(true);
-            $mail->Host = $this->Host;
+            $mail->Host = $GLOBALS['SMTP_HOST'];
             $mail->SMTPAuth = true;
-            $mail->Username = $this->Username;
+            $mail->Username = $GLOBALS['SMTP_USER'];
             $cryptoGen = new CryptoGen();
-            $mail->Password = $this->SMTPAuth;
-            $mail->SMTPSecure = $this->SMTPSecure;
-            $mail->Port = $this->Port;
+            $mail->Password = $cryptoGen->decryptStandard($GLOBALS['SMTP_PASS']);
+            $mail->SMTPSecure = $GLOBALS['SMTP_SECURE'];
+            $mail->Port = $GLOBALS['SMTP_PORT'];
 
             if($file !== ""){
                 $mail->addAttachment($file,"HIPAA From.pdf");
             }
-            $mail->setFrom($this->Username, 'MiDocs');
+            $mail->setFrom($GLOBALS['SMTP_USER'], 'MiDocs');
 //            $mail->addReplyTo($email, 'MiDocs');
             $mail->addAddress($email, 'Client');
             $mail->Subject = $subject;
