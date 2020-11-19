@@ -101,13 +101,15 @@ if (isset($_POST['form']) && $_POST['form'] == "patient-contact-form") {
     $d['send'] = 0;
     $email = $_POST['email'];
     $username = $_SESSION['authUser'];
-    $provider = Provider::getUserInfo($username);
-    $qualification = Provider::getProviderByUsername($username);
-    $send = EmailResponse::requestPatient($provider, $qualification['qualification'], $email);
-    if ($send) {
-        $d['send'] = 1;
+    $csrf_token = $_POST['csrf_token'];
+    if(Patient::verifyCsrfToken($csrf_token)){
+        $provider = Provider::getUserInfo($username);
+        $qualification = Provider::getProviderByUsername($username);
+        $send = EmailResponse::requestPatient($provider, $qualification['qualification'], $email);
+        if ($send) {
+            $d['send'] = 1;
+        }
     }
-
     echo json_encode($d);
 }
 
@@ -116,12 +118,14 @@ if (isset($_POST['form']) && $_POST['form'] == "patientRequester-contact-form") 
     $d['send'] = 0;
     $email = $_POST['email'];
     $username = $_SESSION['authUser'];
-    $requesterData = Other::getUserInfo($username);
-    $send = EmailResponse::requestPatient($requesterData, "", $email, "requester");
-    if ($send) {
-        $d['send'] = 1;
+    $csrf_token = $_POST['csrf_token'];
+    if(Patient::verifyCsrfToken($csrf_token)){
+        $requesterData = Other::getUserInfo($username);
+        $send = EmailResponse::requestPatient($requesterData, "", $email, "requester");
+        if ($send) {
+            $d['send'] = 1;
+        }
     }
-
     echo json_encode($d);
 }
 

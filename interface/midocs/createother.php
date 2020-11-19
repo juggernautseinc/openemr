@@ -78,7 +78,7 @@ $url = substr($url, 0, strpos($url, "interface"));
                 <label for="con_password" class="col-sm-2">Confirm Password</label>
                 <div class="col-sm-4">
                     <input type="password" class="form-control" name="con_password">
-                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_private_key']; ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo CsrfUtils::collectCsrfToken(); ?>">
                     <label class="badge text-danger mt-1 error-field" id="con_password"></label>
                 </div>
                 <div class="col">

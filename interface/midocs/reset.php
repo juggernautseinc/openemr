@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 /**
  * Login screen.
@@ -22,6 +22,7 @@
 
 use OpenEMR\Core\Header;
 use OpenEMR\Services\FacilityService;
+use OpenEMR\Common\Csrf\CsrfUtils;
 
 $ignoreAuth = true;
 // Set $sessionAllowWrite to true to prevent session concurrency issues during authorization related code
@@ -112,7 +113,7 @@ if ($GLOBALS['login_page_layout'] == 'left') {
 <html>
 <head>
     <?php Header::setupHeader(); ?>
-
+    <?php CsrfUtils::setupCsrfKey(); ?>
     <title><?php echo text($openemr_name) . " " . xlt('Mi Docs'); ?></title>
 
     <script>
@@ -185,13 +186,16 @@ if ($GLOBALS['login_page_layout'] == 'left') {
     <div class="<?php echo $loginrow; ?>">
         <div class="<?php echo $formarea; ?>">
             <div class="mb-4" style="font-size:15px;margin-left: -14px;">
-                <label class="badge text-danger label-error" id="error-label" style="line-height:16px;width:0px;"></label>
-                <label class="badge text-success label-error" id="success-label" style="line-height:16px;width:0px;"></label>
+                <label class="badge text-danger label-error" id="error-label"
+                       style="line-height:16px;width:0px;"></label>
+                <label class="badge text-success label-error" id="success-label"
+                       style="line-height:16px;width:0px;"></label>
             </div>
             <div class="form-group">
                 <label for="f_name" class="text-right"><?php echo xlt('First Name:'); ?></label>
                 <input type="text" class="form-control" name="fname"/>
                 <input type="hidden" class="form-control" name="form" value="reset-form"/>
+                <input type="hidden" name="csrf_token" value="<?php echo CsrfUtils::collectCsrfToken(); ?>">
                 <label class="badge text-danger error-label mt-2" id="fname"></label>
             </div>
             <div class="form-group">
@@ -229,7 +233,7 @@ if ($GLOBALS['login_page_layout'] == 'left') {
                 </div>
             </div>
             <div class="mt-2 text-center">
-<!--                <p>New login credentials will be sent to the preferred contact on file.</p>-->
+                <!--                <p>New login credentials will be sent to the preferred contact on file.</p>-->
             </div>
         </div>
         <div class="<?php echo $logoarea; ?>">
@@ -244,62 +248,71 @@ if ($GLOBALS['login_page_layout'] == 'left') {
     </div>
 </form>
 <script>
-    $("#select-contact").change(function(){
+    $("#select-contact").change(function () {
         var val = $(this).val();
-        $("#"+val).removeClass("d-none");
-        if(val == "email"){
+        $("#" + val).removeClass("d-none");
+        if (val == "email") {
             $("#cell").addClass("d-none");
             $("#cell").val("");
-        }else{
+        } else {
             $("#email").addClass("d-none");
             $("#email").val("");
         }
     })
 
-    $("#reset-form").submit(function(r){
+    $("#reset-form").submit(function (r) {
         r.preventDefault();
         var btn = $("#reset-btn");
         btn.html("<i class='fa fa-check'></i> Submit");
         $(".label-error").text("");
         var error = false;
 
-        $("#reset-form input").each(function(i){
+        $("#reset-form input").each(function (i) {
             var name = $(this).attr('name');
-            if($(this).val() == "" && name !== "email" && name !== "cell" ){
-                $("#"+name).fadeIn().text("This field is empty");
+            if ($(this).val() == "" && name !== "email" && name !== "cell") {
+                $("#" + name).fadeIn().text("This field is empty");
                 error = true;
 
                 setTimeout(function () {
-                    $("#"+name).fadeOut();
-                },3000)
+                    $("#" + name).fadeOut();
+                }, 3000)
             }
         })
 
-        if($("input[name='email']").val() == "" && $("input[name='cell']").val() == ""){
+        if ($("input[name='email']").val() == "" && $("input[name='cell']").val() == "") {
             error = true;
 
             $("#email-phone").fadeIn().text("This field can not be empty");
 
-            setTimeout(function(){
+            setTimeout(function () {
                 $("#email-phone").fadeOut();
-            },3000)
+            }, 3000)
         }
 
-        if(!error){
+        if (!error) {
             btn.text("Loading..");
-            var data = $(this).serialize();
-            ajPost("midocsController.php",data,function(r){
-                if(r.available == 0){
+            // var data = $(this).serialize();
+            var data = {
+                "form": "reset-form",
+                "fname": $("#reset-form input[name='fname']").val(),
+                "lname": $("#reset-form input[name='fname']").val(),
+                "cell": $("#reset-form input[name='cell']").val(),
+                "email": $("#reset-form input[name='email']").val(),
+                "csrf_token": $("#reset-form input[name='csrf_token']").val(),
+            }
+
+            ajPost("midocsController.php", data, function (r) {
+                if (r.available == 0) {
                     // console.log("you have to create a new account");
-                    $("#error-label").fadeIn().html("We cannot locate your account. If you are sure you have a MiDocs account please give us a call.<br>"+
-                    "Otherwise you can create a new account. <br>"+
-                    "<a href='createaccount.php' class='btn btn-outline-primary btn-sm mt-3'>Create New Account</a>");
-                }else{
+                    $("#error-label").fadeIn().html("We cannot locate your account. If you are sure you have a MiDocs account please give us a call.<br>" +
+                        "Otherwise you can create a new account. <br>" +
+                        "<a href='createaccount.php' class='btn btn-outline-primary btn-sm mt-3'>Create New Account</a>");
+                } else {
                     $("#success-label").fadeIn().text("We'll email your details in short while.");
 
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.href = "<?php echo $url?>";
-                    },3000)
+                    }, 3000)
                 }
 
                 btn.text("Submit");
@@ -307,7 +320,7 @@ if ($GLOBALS['login_page_layout'] == 'left') {
         }
     })
 
-    function ajPost(url,data,callBack){
+    function ajPost(url, data, callBack) {
         $.ajax({
             url: url,
             type: 'post',

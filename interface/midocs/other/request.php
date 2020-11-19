@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('header.php');
 
 
@@ -15,6 +16,7 @@ require_once("../../globals.php");
 <html>
 <head>
     <?php Header::setupHeader('datetime-picker'); ?>
+    <?php CsrfUtils::setupCsrfKey(); ?>
 </head>
 <body>
 <div class="container">
@@ -34,6 +36,7 @@ require_once("../../globals.php");
                             <div class="col-6">
                                 <input class="form-control" name="fname" type="text">
                                 <input type="hidden" name="form" value="other-request-form">
+                                <input type="hidden" name="csrf_token" value="<?php echo CsrfUtils::collectCsrfToken(); ?>">
                                 <label class="badge text-danger mt-1 error-label" id="fname"></label>
                             </div>
                         </div>

@@ -202,7 +202,7 @@ if ($GLOBALS['login_page_layout'] == 'left') {
                                 <div class="col">
                                     <input type='radio' class="custom-checkbox" name='contact' value="phone"/>
                                     <input type="hidden" name="csrf_token"
-                                           value="<?php echo $_SESSION['csrf_private_key'] ?>">
+                                           value="<?php echo CsrfUtils::collectCsrfToken(); ?>">
                                 </div>
                             </div>
                             <div class="row">

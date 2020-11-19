@@ -63,7 +63,6 @@ $url = substr($url, 0, strpos($url, "interface"));
 <head>
     <?php Header::setupHeader(); ?>
     <?php CsrfUtils::setupCsrfKey(); ?>
-
     <title><?php echo text($openemr_name) . " " . xlt('Mi Docs'); ?></title>
 </head>
 <body class="login">
@@ -89,7 +88,7 @@ $url = substr($url, 0, strpos($url, "interface"));
                 <label for="provider_f_name" class="col-sm-2">Provider First Name</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" name="fname">
-                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_private_key'] ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo CsrfUtils::collectCsrfToken(); ?>">
                     <label class="badge text-danger mt-1 error-field" id="fname"></label>
                 </div>
             </div>

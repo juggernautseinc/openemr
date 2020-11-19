@@ -117,7 +117,6 @@ if (session_status() === PHP_SESSION_NONE) {
     OpenEMR\Common\Session\SessionUtil::coreSessionStart($web_root, $read_only);
     //error_log("2. FREE ".GetCallingScriptName()); // debug unlocked
 }
-
 // Set the site ID if required.  This must be done before any database
 // access is attempted.
 if (empty($_SESSION['site_id']) || !empty($_GET['site'])) {

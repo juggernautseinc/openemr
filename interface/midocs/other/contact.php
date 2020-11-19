@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('header.php');
 
 use OpenEMR\Core\Header;
@@ -14,6 +15,7 @@ require_once("../../globals.php");
 <html>
 <head>
     <?php Header::setupHeader(); ?>
+    <?php CsrfUtils::setupCsrfKey(); ?>
 </head>
 <body>
 <div class="container">
@@ -33,6 +35,7 @@ require_once("../../globals.php");
                             <div class="col-6">
                                 <input class="form-control" name="email" type="text">
                                 <input type="hidden" name="form" value="patientRequester-contact-form">
+                                <input type="hidden" name="csrf_token" value="<?php echo CsrfUtils::collectCsrfToken(); ?>">
                                 <label class="badge text-danger mt-1 error-label" id="email"></label>
                             </div>
                         </div>

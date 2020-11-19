@@ -5,6 +5,7 @@ require_once("../globals.php");
 use OpenEMR\Common\Auth\AuthHash;
 use OpenEMR\Common\Acl\AclExtended;
 use OpenEMR\Events\User\UserCreatedEvent;
+use OpenEMR\Common\Csrf\CsrfUtils;
 
 class Provider
 {
@@ -29,6 +30,7 @@ class Provider
     {
 //        insert into users
 //        insert into procedure_providers
+        $csrf = $data['csrf_token'];
         $access_group[] = "Physicians";
         $username = $data['username'];
         $fname = $data['fname'];
@@ -40,8 +42,8 @@ class Provider
         $email = $data['email'];
         $hash = new AuthHash('auth');
         $password = $hash->passwordHash($password);
-
-        if(isset($data['csrf_token'])){
+        $verify = CsrfUtils::verifyCsrfToken($csrf);
+        if($verify){
             $insertUsers = sqlInsert("INSERT INTO users (`username`,`password`,`authorized`,`fname`,`lname`,`email`,`email_direct`,`which_user`)VALUES ('$username', 'providerUser', 1, '$fname', '$lname','$email','$email', 2)");
             if ($insertUsers){
                 $userId = $insertUsers;

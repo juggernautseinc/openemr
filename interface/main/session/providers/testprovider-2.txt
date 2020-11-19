@@ -1,0 +1,2 @@
+site_id|s:7:"default";language_choice|i:1;language_direction|s:3:"ltr";authUser|s:14:"testprovider-2";authPass|s:60:"$2y$10$D9AQGbm3e3rWyrzUDLnhUuGWz1.PA9R7DXuKsBzYn8rs3k7EBUNQO";authUserID|s:3:"101";authProvider|s:7:"Default";userauthorized|s:1:"1";whichUser|s:1:"2";username|s:14:"testprovider-2";practice|s:18:"test practice name";csrf_private_key|s:32:"sìR4kÂ“«@ğ³†
+,“Óæ6VìĞTu¡£";

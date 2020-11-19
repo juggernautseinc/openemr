@@ -5,6 +5,7 @@ require_once("../globals.php");
 use OpenEMR\Common\Auth\AuthHash;
 use OpenEMR\Common\Acl\AclExtended;
 use OpenEMR\Events\User\UserCreatedEvent;
+use OpenEMR\Common\Csrf\CsrfUtils;
 
 class Other
 {
@@ -20,7 +21,9 @@ class Other
 
     public static function add($data){
         $hash = new AuthHash('auth');
-        if(isset($data['csrf_token'])){
+        $csrf = $data['csrf_token'];
+        $verify = CsrfUtils::verifyCsrfToken($csrf);
+        if($verify){
             $access_group[] = "Physicians";
             $username = $_POST['username'];
             $password = $hash->passwordHash($_POST['password']);
@@ -74,29 +77,34 @@ class Other
     }
 
     public static function availableUser($data){
-        if(!empty($data['email'])){
-            $fname = $data['fname'];
-            $lname = $data['lname'];
-            $email = $data['email'];
+//        print_r($data);die;
+        $csrf = $data['csrf_token'];
+        $verify = CsrfUtils::verifyCsrfToken($csrf);
+        if($verify){
+            if(!empty($data['email'])){
+                $fname = $data['fname'];
+                $lname = $data['lname'];
+                $email = $data['email'];
 
-            $available = sqlFetchArray(sqlStatement("SELECT id, which_user, email, username FROM users WHERE fname='$fname' AND lname = '$lname' AND email = '$email' "));
-            if(!empty($available)){
+                $available = sqlFetchArray(sqlStatement("SELECT id, which_user, email, username FROM users WHERE fname='$fname' AND lname = '$lname' AND email = '$email' "));
+                if(!empty($available)){
 //                send new credentials to the user
-                $send = self::existUser($available);
-                if($send){
-                    return true;
+                    $send = self::existUser($available);
+                    if($send){
+                        return true;
+                    }
                 }
-            }
-        }else{
-            $fname = $data['fname'];
-            $lname = $data['lname'];
-            $phone = $data['cell'];
-            $available = sqlFetchArray(sqlStatement("SELECT id, which_user, email, username FROM users WHERE fname='$fname' AND lname = '$lname' AND phone = '$phone' "));
-            if(!empty($available)){
+            }else{
+                $fname = $data['fname'];
+                $lname = $data['lname'];
+                $phone = $data['cell'];
+                $available = sqlFetchArray(sqlStatement("SELECT id, which_user, email, username FROM users WHERE fname='$fname' AND lname = '$lname' AND phone = '$phone' "));
+                if(!empty($available)){
 //                send new credentials to the user
-                $send = self::existUser($available);
-                if($send){
-                    return true;
+                    $send = self::existUser($available);
+                    if($send){
+                        return true;
+                    }
                 }
             }
         }
