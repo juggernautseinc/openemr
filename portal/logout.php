@@ -1,5 +1,4 @@
 <?php
-
 /**
  * portal/logout.php
  *
@@ -27,5 +26,15 @@ OpenEMR\Common\Session\SessionUtil::portalSessionCookieDestroy();
 
 //redirect to pretty login/logout page
 // $landingpage is defined in above verify_session.php script
-header('Location: ' . $landingpage . '&logout');
-//
+//header('Location: ' . $landingpage . '&logout');
+$username = $_GET['username'];
+$path = "../interface/main/session/patients/$username.txt";
+if(file_exists($path)){
+    $file = fopen($path,"w");
+    fwrite($file,"");
+    fclose($file);
+    unlink($path);
+    session_start();
+    session_destroy();
+    header('Location: ../interface/login/login.php?site=default');
+}

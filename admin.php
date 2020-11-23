@@ -1,5 +1,7 @@
 <?php
-
+echo "coming";die;
+//session_start();
+//print_r($_SESSION);die;
 /**
  *
  * Multi Site Administration script.

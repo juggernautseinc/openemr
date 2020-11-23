@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Portal Registration Wizard
  *
@@ -127,7 +126,7 @@ if ($GLOBALS['language_menu_login']) {
                 var profile = $("#profileFrame").contents();
 
                 // Fix for iFrame height
-                window.addEventListener('message', function(e) {
+                window.addEventListener('message', function (e) {
                     var scroll_height = e.data;
                     document.getElementById('profileFrame').style.height = scroll_height + 'px';
                 }, false);
@@ -147,38 +146,38 @@ if ($GLOBALS['language_menu_login']) {
                 }
                 if (isValid) {
                     if (curStepBtn == 'step-1') { // leaving step 1 setup profile frame. Prob not nec but in case
-                    let fn = $("#fname").val().replace(/^./, $("#fname").val()[0].toUpperCase());
-                    let ln = $("#lname").val().replace(/^./, $("#lname").val()[0].toUpperCase());
-                    profile.find('input#fname').val(fn);
+                        let fn = $("#fname").val().replace(/^./, $("#fname").val()[0].toUpperCase());
+                        let ln = $("#lname").val().replace(/^./, $("#lname").val()[0].toUpperCase());
+                        profile.find('input#fname').val(fn);
                         profile.find('input#mname').val($("#mname").val());
-                    profile.find('input#lname').val(ln);
+                        profile.find('input#lname').val(ln);
                         profile.find('input#dob').val($("#dob").val());
                         profile.find('input#email').val($("#emailInput").val());
-                    profile.find('input#emailDirect').val($("#emailInput").val());
-                    // disable to prevent already validated field changes.
-                    profile.find('input#fname').prop("disabled", true);
-                    profile.find('input#mname').prop("disabled", true);
-                    profile.find('input#lname').prop("disabled", true);
-                    profile.find('input#dob').prop("disabled", true);
-                    profile.find('input#email').prop("disabled", true);
-                    profile.find('input#emailDirect').prop("disabled", true);
+                        profile.find('input#emailDirect').val($("#emailInput").val());
+                        // disable to prevent already validated field changes.
+                        profile.find('input#fname').prop("disabled", true);
+                        profile.find('input#mname').prop("disabled", true);
+                        profile.find('input#lname').prop("disabled", true);
+                        profile.find('input#dob').prop("disabled", true);
+                        profile.find('input#email').prop("disabled", true);
+                        profile.find('input#emailDirect').prop("disabled", true);
 
                         profile.find('input[name=allowPatientPortal]').val(['YES']);
-                    profile.find('input[name=hipaaAllowemail]').val(['YES']);
+                        profile.find('input[name=hipaaAllowemail]').val(['YES']);
                         // need these for validation.
                         profile.find('select#providerid option:contains("Unassigned")').val('');
-                    // must have a provider for many reasons. w/o save won't work.
+                        // must have a provider for many reasons. w/o save won't work.
                         profile.find('select#providerid').attr('required', true);
                         profile.find('select#sex option:contains("Unassigned")').val('');
                         profile.find('select#sex').attr('required', true);
 
                         var pid = profile.find('input#pid').val();
                         if (pid < 1) { // form pid set in promise
-                        callServer('get_newpid', '',
-                            encodeURIComponent($("#dob").val()),
-                            encodeURIComponent($("#lname").val()),
-                            encodeURIComponent($("#fname").val()),
-                            encodeURIComponent($("#emailInput").val()));
+                            callServer('get_newpid', '',
+                                encodeURIComponent($("#dob").val()),
+                                encodeURIComponent($("#lname").val()),
+                                encodeURIComponent($("#fname").val()),
+                                encodeURIComponent($("#emailInput").val()));
                         }
                     }
                     nextstepwiz.removeClass('disabled').trigger('click');

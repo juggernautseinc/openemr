@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Patient Portal Home
  *
@@ -13,15 +12,15 @@
  * @copyright Copyright (c) 2020 Shiqiang Tao <StrongTSQ@gmail.com>
  * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
  */
-
 require_once("verify_session.php");
 require_once("$srcdir/patient.inc");
 require_once("$srcdir/options.inc.php");
 require_once("lib/portal_mail.inc");
 require_once(dirname(__FILE__) . "/../library/appointments.inc.php");
-
 use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Core\Header;
+
+//print_r($_SESSION);die;
 
 if (isset($_SESSION['register']) && $_SESSION['register'] === true) {
     require_once(dirname(__FILE__) . "/../src/Common/Session/SessionUtil.php");
@@ -387,7 +386,7 @@ foreach ($msgs as $i) {
                             } ?>
                             <a class="dropdown-item" href="javascript:changeCredentials(event)"> <i class="fa fa-cog fa-fw"></i> <?php echo xlt('Change Credentials'); ?></a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="logout.php"><i class="fa fa-ban fa-fw"></i> <?php echo xlt('Logout'); ?></a>
+                            <a class="dropdown-item" href="logout.php?username=<?php echo $_GET['username']?>"><i class="fa fa-ban fa-fw"></i> <?php echo xlt('Logout'); ?></a>
                         </div>
                     </li>
                 </ul>
@@ -451,7 +450,7 @@ foreach ($msgs as $i) {
                         <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#procard" data-toggle="collapse" data-parent="#cardgroup"><i class="fa fa-edit"></i> <?php echo xlt("Patient Reported Outcomes"); ?></a></li>
                     <?php } ?>
                     <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#openSignModal" data-toggle="modal" data-type="patient-signature"><i class="fas fa-file-signature"></i> <?php echo xlt('Signature on File'); ?></a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php?username=<?php echo $_GET['username']?>"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
                 </ul>
             </nav>
           </aside>

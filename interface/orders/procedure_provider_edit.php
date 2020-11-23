@@ -101,6 +101,7 @@ function invalue($name)
                 "WHERE ppid = '"  . add_escape_custom($ppid) . "'";
                 sqlStatement($query);
             } else {
+//                echo "isnerting";die;
                 $ppid = sqlInsert("INSERT INTO procedure_providers SET $sets");
             }
         } elseif ($_POST['form_delete']) {

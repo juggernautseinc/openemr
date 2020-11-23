@@ -1,0 +1,25 @@
+From 83f1ea7ca7623282001aaa2da7e7fbf8f8d2cac5 Mon Sep 17 00:00:00 2001
+From: Aiyash Ahmed <aiyashahmed96@gmail.com>
+Date: Wed, 18 Nov 2020 14:28:32 +0530
+Subject: [PATCH 6/7] made changes in logut button
+
+---
+ portal/home.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/portal/home.php b/portal/home.php
+index 031033f38..31f6a4155 100644
+--- a/portal/home.php
++++ b/portal/home.php
+@@ -450,7 +450,7 @@ foreach ($msgs as $i) {
+                         <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#procard" data-toggle="collapse" data-parent="#cardgroup"><i class="fa fa-edit"></i> <?php echo xlt("Patient Reported Outcomes"); ?></a></li>
+                     <?php } ?>
+                     <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#openSignModal" data-toggle="modal" data-type="patient-signature"><i class="fas fa-file-signature"></i> <?php echo xlt('Signature on File'); ?></a></li>
+-                    <li class="nav-item"><a class="nav-link" href="logout.php"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
++                    <li class="nav-item"><a class="nav-link" href="logout.php?username=<?php echo $_GET['username']?>"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
+                 </ul>
+             </nav>
+           </aside>
+-- 
+2.27.0.windows.1
+

@@ -1,0 +1,110 @@
+ALTER TABLE users ADD which_user int(1) NOT NULL DEFAULT 0 AFTER supervisor_id
+ALTER TABLE procedure_providers ADD qualification VARCHAR(100) NOT NULL AFTER lab_director
+
+create table email_response(
+   id INT NOT NULL AUTO_INCREMENT,
+   provider_id bigint(50) NOT NULL DEFAULT 0,
+   requester_id bigint(50) NOT NULL DEFAULT 0,
+   patient_id bigint(50) NOT NULL DEFAULT 0,
+   title VARCHAR(20) NOT NULL,
+   allow tinyint(1) NOT NULL DEFAULT 0,
+   date longtext NOT NULL,
+   PRIMARY KEY ( id )
+);
+
+create table other_users(
+   id INT NOT NULL AUTO_INCREMENT,
+   organization VARCHAR(100) NOT NULL,
+   fname VARCHAR(100) NOT NULL,
+   lname VARCHAR(100) NOT NULL,
+   username VARCHAR(100) NOT NULL,
+   password VARCHAR(255) NOT NULL,
+   email VARCHAR(100) NOT NULL,
+   contact VARCHAR(100) NOT NULL,
+   preferred_contact VARCHAR(10) NULL DEFAULT 'email',
+   PRIMARY KEY ( id )
+);
+
+ALTER TABLE patient_data MODIFY title VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY language VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY financial VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY fname VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY lname VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY mname VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY street VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY postal_code VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY city VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY state VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY country_code VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY drivers_license VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY ss VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY occupation longtext NULL
+ALTER TABLE patient_data MODIFY phone_home VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY phone_biz VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY phone_contact VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY phone_cell VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY pharmacy_id int NULL DEFAULT 0
+ALTER TABLE patient_data MODIFY status VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY contact_relationship VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY date datetime NULL
+ALTER TABLE patient_data MODIFY sex VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY referrer VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY referrerID VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY providerID int NULL
+ALTER TABLE patient_data MODIFY ref_providerID int NULL
+ALTER TABLE patient_data MODIFY email VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY email_direct VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY ethnoracial VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY race VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY ethnicity VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY religion VARCHAR(40) NULL
+ALTER TABLE patient_data MODIFY interpretter VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY migrantseasonal VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY family_size VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY monthly_income VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY billing_note text NULL
+ALTER TABLE patient_data MODIFY homeless VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY financial_review datetime NULL
+ALTER TABLE patient_data MODIFY pubpid VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY genericname1 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY genericval1 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY genericname2 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY genericval2 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY hipaa_mail VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY hipaa_voice VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY hipaa_notice VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY hipaa_message VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY hipaa_allowsms VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY hipaa_allowemail VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY squad VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY fitness int(11) NULL
+ALTER TABLE patient_data MODIFY referral_source VARCHAR(30) NULL
+ALTER TABLE patient_data MODIFY usertext1 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext2 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext3 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext4 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext5 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext6 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext7 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY usertext8 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist1 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist2 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist3 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist4 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist5 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist6 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY userlist7 VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY pricelevel VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY completed_ad VARCHAR(3) NULL
+ALTER TABLE patient_data MODIFY vfc VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY mothersname VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY allow_imm_reg_use VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY allow_imm_info_share VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY allow_health_info_ex VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY allow_patient_portal VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY deceased_reason VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY cmsportal_login VARCHAR(255) NULL
+ALTER TABLE patient_data MODIFY county VARCHAR(255) NULL
+
+
+

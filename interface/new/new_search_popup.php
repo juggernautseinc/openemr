@@ -1,5 +1,4 @@
 <?php
-
 /**
  * new_search_popup.php
  *

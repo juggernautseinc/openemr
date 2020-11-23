@@ -37,6 +37,7 @@ if (
 }
 // this will not allow copy/paste of the link to this main.php page or a refresh of this main.php page
 //  (default behavior, however, this behavior can be turned off in the prevent_browser_refresh global)
+
 if ($GLOBALS['prevent_browser_refresh'] > 1) {
     unset($_SESSION['token_main_php']);
 }
@@ -79,7 +80,10 @@ $esignApi = new Api();
         var csrf_token_js = <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>;
         var userDebug = <?php echo js_escape($GLOBALS['user_debug']); ?>;
         var webroot_url = <?php echo js_escape($web_root); ?>;
+        var authUser = <?php echo js_escape( $_SESSION['authUser']); ?>;
+        var whichUser = <?php echo js_escape($_SESSION['whichUser'])?>;
         var jsLanguageDirection = <?php echo js_escape($_SESSION['language_direction']); ?>;
+
         var jsGlobals = {};
 
         function goRepeaterServices() {

@@ -1,5 +1,4 @@
 <?php
-
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
@@ -11,4 +10,38 @@
 
 // Database parameters are now site-specific.
 // $GLOBALS['OE_SITE_DIR'] is set in interface/globals.php.
-require_once $GLOBALS['OE_SITE_DIR'] . "/sqlconf.php";
+//require_once $GLOBALS['OE_SITE_DIR'] . "/sqlconf.php";
+
+
+//  OpenEMR
+//  MySQL Config
+
+global $disable_utf8_flag;
+$disable_utf8_flag = false;
+
+$host = 'localhost';
+$port = '3306';
+$login = 'user';
+$pass = 'f3VzjAwiUQnL5BUU';
+$dbase = 'openemr';
+$db_encoding = 'utf8mb4';
+
+$sqlconf = array();
+global $sqlconf;
+$sqlconf["host"] = $host;
+$sqlconf["port"] = $port;
+$sqlconf["login"] = $login;
+$sqlconf["pass"] = $pass;
+$sqlconf["dbase"] = $dbase;
+$sqlconf["db_encoding"] = $db_encoding;
+
+//////////////////////////
+//////////////////////////
+//////////////////////////
+//////DO NOT TOUCH THIS///
+$config = 1; /////////////
+//////////////////////////
+//////////////////////////
+//////////////////////////
+
+

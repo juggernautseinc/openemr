@@ -25,6 +25,8 @@ use OpenEMR\Services\UserService;
 use OpenEMR\Events\User\UserUpdatedEvent;
 use OpenEMR\Events\User\UserCreatedEvent;
 
+//print_r($_POST);die;
+
 if (!empty($_POST)) {
     if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
         CsrfUtils::csrfNotVerified();
@@ -251,6 +253,7 @@ if (isset($_POST["privatemode"]) && $_POST["privatemode"] == "user_admin") {
 
 /* To refresh and save variables in mail frame  - Arb*/
 if (isset($_POST["mode"])) {
+//    echo $_POST['mode'];die;
     if ($_POST["mode"] == "new_user") {
         if ($_POST["authorized"] != "1") {
             $_POST["authorized"] = 0;
@@ -262,11 +265,13 @@ if (isset($_POST["mode"])) {
         $res = sqlStatement("select distinct username from users where username != ''");
         $doit = true;
         while ($row = sqlFetchArray($res)) {
+//            check whether the user is already there or not.
             if ($doit == true && $row['username'] == trim($_POST['rumple'])) {
                 $doit = false;
             }
         }
 
+//        create a new user
         if ($doit == true) {
             $insertUserSQL =
             "insert into users set " .
@@ -320,6 +325,7 @@ if (isset($_POST["mode"])) {
                     )
                 );
 
+//                insert into groups
                 sqlStatement(
                     "insert into `groups` set name = ?, user = ?",
                     array(
@@ -328,6 +334,7 @@ if (isset($_POST["mode"])) {
                     )
                 );
 
+//
                 if (trim((isset($_POST['rumple']) ? $_POST['rumple'] : ''))) {
                               // Set the access control group of user
                               AclExtended::setUserAro(

@@ -1534,7 +1534,7 @@ class GaclApi extends Gacl {
 		//$rs = $this->db->Execute($query);
 		$row = $this->db->GetRow($query);
 
-		if ($row) {
+		if (!empty($row)) {
 			return $row;
 		}
 
@@ -1924,6 +1924,7 @@ class GaclApi extends Gacl {
 				LEFT JOIN	'. $group_table .' g ON g.id='. $group_id .'
 				LEFT JOIN	'. $table .' gm ON (gm.'. $group_type .'_id=o.id AND gm.group_id=g.id)
 				WHERE		(o.section_value='. $this->db->quote($object_section_value) .' AND o.value='. $this->db->quote($object_value) .')';
+
 		$rs = $this->db->Execute($query);
 
 		if (!is_object($rs)) {
@@ -2785,6 +2786,8 @@ class GaclApi extends Gacl {
 				return FALSE;
 		}
 
+//		echo $table;die;
+
 		$this->debug_text("get_object_id(): Section Value: $section_value Value: $value Object Type: $object_type");
 
 		$section_value = trim($section_value);
@@ -2927,14 +2930,17 @@ class GaclApi extends Gacl {
 				return FALSE;
 		}
 
+//		echo $map_table;die;
+
 		if (empty($object_id)) {
 			$this->debug_text('get_object_groups(): Object ID: ('. $object_id .') is empty, this is required');
 			return FALSE;
 		}
+//echo strtoupper($option);die;
 
 		if (strtoupper($option) == 'RECURSE') {
 		    $query = '
-				SELECT		DISTINCT g.id AS group_id
+				SELECT		DISTINCT g.id AS group_id, g.
 				FROM		'. $map_table .' gm
 				LEFT JOIN	'. $group_table .' g1 ON g1.id=gm.group_id
 				LEFT JOIN	'. $group_table .' g ON g.lft<=g1.lft AND g.rgt>=g1.rgt';
@@ -2946,6 +2952,7 @@ class GaclApi extends Gacl {
 
 		$query .= '
 				WHERE		gm.'. $object_type .'_id='. $object_id;
+
 		$rs = $this->db->Execute($query);
 
 		if (!is_object($rs)) {

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The outside frame that holds all of the OpenEMR User Interface.
  *
@@ -13,11 +12,9 @@
  * @copyright Copyright (c) 2019 Ranganath Pathak <pathak@scrs1.org>
  * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
  */
-
 // Set $sessionAllowWrite to true to prevent session concurrency issues during authorization and app setup related code
 $sessionAllowWrite = true;
 require_once('../globals.php');
-
 use OpenEMR\Common\Auth\AuthUtils;
 use OpenEMR\Common\Crypto\CryptoGen;
 use OpenEMR\Common\Csrf\CsrfUtils;
@@ -112,13 +109,11 @@ function generate_html_middle()
     posted_to_hidden('languageChoice');
     posted_to_hidden('authUser');
     posted_to_hidden('clearPass');
-    // to be safe, remove clearPass from memory now (if it is not empty yet)
-    if (!empty($_POST["clearPass"])) {
-        if (function_exists('sodium_memzero')) {
-            sodium_memzero($_POST["clearPass"]);
-        } else {
-            $_POST["clearPass"] = '';
-        }
+    // to be safe, remove clearPass from memory now
+    if (function_exists('sodium_memzero')) {
+        sodium_memzero($_POST["clearPass"]);
+    } else {
+        $_POST["clearPass"] = '';
     }
 }
 
