@@ -25,14 +25,14 @@ class Other
         $verify = CsrfUtils::verifyCsrfToken($csrf);
         if($verify){
             $access_group[] = "Physicians";
-            $username = $_POST['username'];
-            $password = $hash->passwordHash($_POST['password']);
-            $fname = $_POST['fname'];
-            $lname = $_POST['lname'];
-            $organization = $_POST['organization'];
-            $email = $_POST['email'];
-            $contact = $_POST['contact'];
-            $preferred = $_POST['preferred_contact'];
+            $username = $data['username'];
+            $password = $hash->passwordHash($data['password']);
+            $fname = $data['fname'];
+            $lname = $data['lname'];
+            $organization = $data['organization'];
+            $email = $data['email'];
+            $contact = $data['contact'];
+            $preferred = $data['preferred_contact'];
 
             $insertUsers = sqlInsert("INSERT INTO users (`username`,`password`,`authorized`,`fname`,`lname`,`email`,`email_direct`,`which_user`)VALUES ('$username', 'otherUser', 1, '$fname', '$lname','$email','$email', 3)");
             if($insertUsers){

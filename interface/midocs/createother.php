@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 use OpenEMR\Core\Header;
 use OpenEMR\Services\FacilityService;
 use OpenEMR\Common\Csrf\CsrfUtils;

@@ -28,6 +28,7 @@ class Provider
 
     public static function add($data)
     {
+        return true;
 //        insert into users
 //        insert into procedure_providers
         $csrf = $data['csrf_token'];
@@ -67,17 +68,10 @@ class Provider
 
                     }
                 }
-//                $inserProviders = sqlInsert("INSERT INTO procedure_providers (`name`,`npi`, `login`, `password`,`qualification`) VALUES ('$name',$npi,'$username','$password','$qualification') ");
-//
-//                if($inserProviders){
-//                    $id = $inserProviders;
-//                    $data['id'] = $id;
-//                    return $data;
-//                }
             }
         }
 
-//        return false;
+        return false;
     }
 
     public static function getProvider($id){

@@ -1,0 +1,206 @@
+diff --git a/interface/midocs/createprovider.php b/interface/midocs/createprovider.php
+index 3df6abf45..bd0cb6ffe 100644
+--- a/interface/midocs/createprovider.php
++++ b/interface/midocs/createprovider.php
+@@ -171,21 +171,21 @@ $url = substr($url, 0, strpos($url, "interface"));
+             </div>
+             <div class="form-group row">
+                 <label for="npi" class="col-sm-2">Individual NPI</label>
+-                <div class="col-sm-4">
++                <div class="col-sm-6">
+                     <input type="text" class="form-control" name="npi">
+                     <label class="badge text-danger mt-1 error-field" id="npi"></label>
+                 </div>
+             </div>
+             <div class="form-group row">
+                 <label for="email" class="col-sm-2">E-mail</label>
+-                <div class="col-sm-4">
++                <div class="col-sm-8">
+                     <input type="text" class="form-control" name="email">
+                     <label class="badge text-danger mt-1 error-field" id="email"></label>
+                 </div>
+             </div>
+             <div class="form-group row">
+                 <label for="con_email" class="col-sm-2">Confirm E-mail</label>
+-                <div class="col-sm-4">
++                <div class="col-sm-8">
+                     <input type="email" class="form-control" name="con_email">
+                     <label class="badge text-danger mt-1 error-field" id="con_email"></label>
+                 </div>
+diff --git a/portal/home.php b/portal/home.php
+index 031033f38..31f6a4155 100644
+--- a/portal/home.php
++++ b/portal/home.php
+@@ -450,7 +450,7 @@ foreach ($msgs as $i) {
+                         <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#procard" data-toggle="collapse" data-parent="#cardgroup"><i class="fa fa-edit"></i> <?php echo xlt("Patient Reported Outcomes"); ?></a></li>
+                     <?php } ?>
+                     <li class="nav-item" data-toggle="pill"><a class="nav-link" href="#openSignModal" data-toggle="modal" data-type="patient-signature"><i class="fas fa-file-signature"></i> <?php echo xlt('Signature on File'); ?></a></li>
+-                    <li class="nav-item"><a class="nav-link" href="logout.php"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
++                    <li class="nav-item"><a class="nav-link" href="logout.php?username=<?php echo $_GET['username']?>"><i class="fa fa-ban"></i> <?php echo xlt('Logout'); ?></a></li>
+                 </ul>
+             </nav>
+           </aside>
+diff --git a/sqlBackup/migration_queries.txt b/sqlBackup/migration_queries.txt
+new file mode 100644
+index 000000000..68505b0d0
+--- /dev/null
++++ b/sqlBackup/migration_queries.txt
+@@ -0,0 +1,110 @@
++ALTER TABLE users ADD which_user int(1) NOT NULL DEFAULT 0 AFTER supervisor_id
++ALTER TABLE procedure_providers ADD qualification VARCHAR(100) NOT NULL AFTER lab_director
++
++create table email_response(
++   id INT NOT NULL AUTO_INCREMENT,
++   provider_id bigint(50) NOT NULL DEFAULT 0,
++   requester_id bigint(50) NOT NULL DEFAULT 0,
++   patient_id bigint(50) NOT NULL DEFAULT 0,
++   title VARCHAR(20) NOT NULL,
++   allow tinyint(1) NOT NULL DEFAULT 0,
++   date longtext NOT NULL,
++   PRIMARY KEY ( id )
++);
++
++create table other_users(
++   id INT NOT NULL AUTO_INCREMENT,
++   organization VARCHAR(100) NOT NULL,
++   fname VARCHAR(100) NOT NULL,
++   lname VARCHAR(100) NOT NULL,
++   username VARCHAR(100) NOT NULL,
++   password VARCHAR(255) NOT NULL,
++   email VARCHAR(100) NOT NULL,
++   contact VARCHAR(100) NOT NULL,
++   preferred_contact VARCHAR(10) NULL DEFAULT 'email',
++   PRIMARY KEY ( id )
++);
++
++ALTER TABLE patient_data MODIFY title VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY language VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY financial VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY fname VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY lname VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY mname VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY street VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY postal_code VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY city VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY state VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY country_code VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY drivers_license VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY ss VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY occupation longtext NULL
++ALTER TABLE patient_data MODIFY phone_home VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY phone_biz VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY phone_contact VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY phone_cell VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY pharmacy_id int NULL DEFAULT 0
++ALTER TABLE patient_data MODIFY status VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY contact_relationship VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY date datetime NULL
++ALTER TABLE patient_data MODIFY sex VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY referrer VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY referrerID VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY providerID int NULL
++ALTER TABLE patient_data MODIFY ref_providerID int NULL
++ALTER TABLE patient_data MODIFY email VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY email_direct VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY ethnoracial VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY race VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY ethnicity VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY religion VARCHAR(40) NULL
++ALTER TABLE patient_data MODIFY interpretter VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY migrantseasonal VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY family_size VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY monthly_income VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY billing_note text NULL
++ALTER TABLE patient_data MODIFY homeless VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY financial_review datetime NULL
++ALTER TABLE patient_data MODIFY pubpid VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY genericname1 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY genericval1 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY genericname2 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY genericval2 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY hipaa_mail VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY hipaa_voice VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY hipaa_notice VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY hipaa_message VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY hipaa_allowsms VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY hipaa_allowemail VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY squad VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY fitness int(11) NULL
++ALTER TABLE patient_data MODIFY referral_source VARCHAR(30) NULL
++ALTER TABLE patient_data MODIFY usertext1 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext2 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext3 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext4 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext5 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext6 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext7 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY usertext8 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist1 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist2 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist3 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist4 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist5 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist6 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY userlist7 VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY pricelevel VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY completed_ad VARCHAR(3) NULL
++ALTER TABLE patient_data MODIFY vfc VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY mothersname VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY allow_imm_reg_use VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY allow_imm_info_share VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY allow_health_info_ex VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY allow_patient_portal VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY deceased_reason VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY cmsportal_login VARCHAR(255) NULL
++ALTER TABLE patient_data MODIFY county VARCHAR(255) NULL
++
++
++
+diff --git a/src/Common/Email/EmailCustomerReceipt.php b/src/Common/Email/EmailCustomerReceipt.php
+index 4d52a7cc3..726f3562f 100644
+--- a/src/Common/Email/EmailCustomerReceipt.php
++++ b/src/Common/Email/EmailCustomerReceipt.php
+@@ -21,12 +21,6 @@ class EmailCustomerReceipt extends PHPMailer
+ 
+     public function __construct()
+     {
+-        $this->Host = "mail.imarasoft.net";
+-        $this->Username = "ayyash@imarasoft.net";
+-        $this->SMTPAuth = "Ayyash_123!";
+-        $this->SMTPSecure = "ssl";
+-        $this->Port = 465;
+-
+         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+         $url = $protocol.$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+         $this->Url = substr($url, 0, strpos($url, "interface"));
+@@ -664,24 +658,23 @@ $message
+ 
+     public function sendMessage($body, $email, $subject,$file = "")
+     {
+-//        $email = "mahran996@gmail.com";
+         $mail = new PHPMailer(TRUE);
+         try {
+             $mail->SMTPDebug = false;
+             $mail->isSMTP();
+             $mail->IsHTML(true);
+-            $mail->Host = $this->Host;
++            $mail->Host = $GLOBALS['SMTP_HOST'];
+             $mail->SMTPAuth = true;
+-            $mail->Username = $this->Username;
++            $mail->Username = $GLOBALS['SMTP_USER'];
+             $cryptoGen = new CryptoGen();
+-            $mail->Password = $this->SMTPAuth;
+-            $mail->SMTPSecure = $this->SMTPSecure;
+-            $mail->Port = $this->Port;
++            $mail->Password = $cryptoGen->decryptStandard($GLOBALS['SMTP_PASS']);
++            $mail->SMTPSecure = $GLOBALS['SMTP_SECURE'];
++            $mail->Port = $GLOBALS['SMTP_PORT'];
+ 
+             if($file !== ""){
+                 $mail->addAttachment($file,"HIPAA From.pdf");
+             }
+-            $mail->setFrom($this->Username, 'MiDocs');
++            $mail->setFrom($GLOBALS['SMTP_USER'], 'MiDocs');
+ //            $mail->addReplyTo($email, 'MiDocs');
+             $mail->addAddress($email, 'Client');
+             $mail->Subject = $subject;

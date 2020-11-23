@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 require_once("patient/Patient.php");
 require_once("provider/Provider.php");
 require_once("other/Other.php");
@@ -62,6 +62,8 @@ if (isset($_POST['form']) && $_POST['form'] == "create_provider") {
     $add = Provider::add($_POST);
     if ($add) {
         $d['error'] = 0;
+        $d['password'] = $_POST['password'];
+        $d['authUser'] = $_POST['username'];
     }
 
     echo json_encode($d);
@@ -425,6 +427,7 @@ if (isset($_GET['cancel_reset'])) {
 function setSession($id, $username, $for = "patient")
 {
     if ($for == "patient") {
+        session_start();
         $data = Patient::getPatientData($id);
         $userData = $data;
         unset($_SESSION['password_update']);

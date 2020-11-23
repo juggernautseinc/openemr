@@ -39,9 +39,9 @@ class Patient
                 //        insert into patient data
                 if ($insert_users) {
                     if ($preffered_contact == "email") {
-                        $insert_patient_data = sqlStatement("INSERT INTO patient_data (`fname`, `lname`, `sex`, `DOB`, `email`, `email_direct`,`phone_cell`, `pid`,`allow_patient_portal`, `hipaa_allowemail`) values('$f_name','$lname', '$sex', '$dob', '$email', '$email', '$phone', '$pid', 'YES', 'YES')");
+                        $insert_patient_data = sqlStatement("INSERT INTO patient_data (`fname`, `lname`, `sex`, `DOB`, `email`, `email_direct`,`phone_cell` ,`pubpid`, `pid`,`allow_patient_portal`, `hipaa_allowemail`) values('$f_name','$lname', '$sex', '$dob', '$email', '$email', '$phone', '$pid' ,'$pid', 'YES', 'YES')");
                     } else {
-                        $insert_patient_data = sqlStatement("INSERT INTO patient_data (`fname`, `lname`, `sex`, `DOB`, `email`, `email_direct`,`phone_cell`, `pid`,`allow_patient_portal`, `hipaa_allowsms`) values('$f_name','$lname', '$sex', '$dob', '$email', '$email', '$phone', '$pid', 'YES', 'YES')");
+                        $insert_patient_data = sqlStatement("INSERT INTO patient_data (`fname`, `lname`, `sex`, `DOB`, `email`, `email_direct`,`phone_cell`, `pubpid`, `pid`,`allow_patient_portal`, `hipaa_allowsms`) values('$f_name','$lname', '$sex', '$dob', '$email', '$email', '$phone','$pid', '$pid', 'YES', 'YES')");
                     }
                     if ($insert_patient_data) {
 //            insert into patient_access_onsite
